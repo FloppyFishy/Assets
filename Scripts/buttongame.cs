@@ -16,6 +16,7 @@ public class buttongame : MonoBehaviour {
     public GameObject camera;
     public Animator anim;
     public GameObject confetti;
+    public GameObject conf1;
     public Text score;
     public bool done;
     int ansran;
@@ -30,6 +31,7 @@ public class buttongame : MonoBehaviour {
     bool yeah8 = false;
     bool yeah9 = false;
     bool failed = false;
+    public bool cheat;
     Vector3 camPos;
 
     int temp1;
@@ -40,6 +42,7 @@ public class buttongame : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        conf1.SetActive(false);
         confetti.SetActive(false);
         failed = false;
         camPos = camera.transform.position;
@@ -150,6 +153,7 @@ public class buttongame : MonoBehaviour {
 
         if (PlayerPrefs.GetInt("score") == 10)
         {
+            GameObject.Find("next").SetActive(true);
             finish();
         }
 
@@ -161,6 +165,7 @@ public class buttongame : MonoBehaviour {
 
     void finish()
     {
+        conf1.SetActive(true);
         anim.SetBool("winanim", true);
     }
 
@@ -459,6 +464,7 @@ public class buttongame : MonoBehaviour {
 
     void move()
     {
+        anim.SetTrigger("buttonpress");
         if (done == false)
         {
             GameObject.Find("GameObject").GetComponent<manimateanimator>().moving();
@@ -475,13 +481,17 @@ public class buttongame : MonoBehaviour {
 
     void fail()
     {
-        failed = true;
-        manArmature.SetActive(false);
-        manFloppy.SetActive(true);
-        manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-        manFloppy.GetComponent<Rigidbody2D>().AddForce (Vector3.back * 5F);
-        Debug.Log("failed");
-        anim.SetBool("failanim", true);
+        if (cheat == false)
+        {
+            failed = true;
+            manArmature.SetActive(false);
+            manFloppy.SetActive(true);
+            manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            manFloppy.GetComponent<Rigidbody2D>().AddForce(Vector3.back * 5F);
+            Debug.Log("failed");
+            anim.SetBool("failanim", true);
+        }
+
     }
 
     void isgood1()
@@ -534,6 +544,7 @@ public class buttongame : MonoBehaviour {
     }
     void isgood2()
     {
+
         string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
         if (temparr[1] == "+")
         {
@@ -582,6 +593,8 @@ public class buttongame : MonoBehaviour {
     }
     void isgood3()
     {
+
+
         string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
         if (temparr[1] == "+")
         {
@@ -630,6 +643,8 @@ public class buttongame : MonoBehaviour {
     }
     void isgood4()
     {
+
+
         string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
         if (temparr[1] == "+")
         {
