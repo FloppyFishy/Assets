@@ -11,9 +11,12 @@ public class buttongame : MonoBehaviour {
     public Button reset;
     public Button next;
     GameObject stairy;
+    public AudioSource aud;
     public GameObject manArmature;
     public GameObject manFloppy;
     public GameObject camera;
+    public AudioClip win;
+    public AudioClip lose;
     public Animator anim;
     public GameObject confetti;
     public GameObject conf1;
@@ -31,8 +34,9 @@ public class buttongame : MonoBehaviour {
     bool yeah8 = false;
     bool yeah9 = false;
     bool failed = false;
-    bool fin;
+    bool fin = false;
     bool poopoo;
+    bool itdone;
     public bool bum = true;
     public bool cheat;
     Vector3 camPos;
@@ -46,6 +50,8 @@ public class buttongame : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        next.gameObject.SetActive(false);
+        aud = GameObject.Find("man").GetComponent<AudioSource>();
         conf1.SetActive(false);
         confetti.SetActive(false);
         failed = false;
@@ -172,7 +178,8 @@ public class buttongame : MonoBehaviour {
 
         if (poopoo == true)
         {
-            GameObject.Find("man").transform.position = tempos;
+            StopAllCoroutines();
+            poopoo = false;
         }
 	}
 
@@ -185,12 +192,16 @@ public class buttongame : MonoBehaviour {
             manFloppy.SetActive(true);
             manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * -800F);
-            //poopoo = true;
+            poopoo = true;
         }
     }
 
     void finish()
     {
+        next.gameObject.SetActive(true);
+        aud.clip = win;
+        aud.Play();
+        itdone = true;
         StartCoroutine(poo(2F));
         //tempos = GameObject.Find("man").transform.position;
         conf1.SetActive(true);
@@ -519,6 +530,8 @@ public class buttongame : MonoBehaviour {
     {
         if (cheat == false)
         {
+            aud.clip = lose;
+            aud.Play();
             failed = true;
             manArmature.SetActive(false);
             manFloppy.SetActive(true);
@@ -532,200 +545,213 @@ public class buttongame : MonoBehaviour {
 
     void isgood1()
     {
+        if (itdone == false)
+        {
+            string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
+            if (temparr[1] == "+")
+            {
+                if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "x")
+            {
+                if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "-")
+            {
+                if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "÷")
+            {
+                if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+        }
 
-        string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
-        if (temparr[1] == "+")
-        {
-            if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "x")
-        {
-            if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "-")
-        {
-            if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "÷")
-        {
-            if (butt1.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
+
     }
     void isgood2()
     {
-
-        string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
-        if (temparr[1] == "+")
+        if (itdone == false)
         {
-            if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
+            string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
+            if (temparr[1] == "+")
             {
-                move();
+                if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
             }
-            else
+            else if (temparr[1] == "x")
             {
-                fail();
+                if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "-")
+            {
+                if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "÷")
+            {
+                if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
             }
         }
-        else if (temparr[1] == "x")
-        {
-            if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "-")
-        {
-            if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "÷")
-        {
-            if (butt2.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
+        
     }
     void isgood3()
     {
+        if (itdone == false)
+        {
+            string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
+            if (temparr[1] == "+")
+            {
+                if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "x")
+            {
+                if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "-")
+            {
+                if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "÷")
+            {
+                if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+        }
 
-
-        string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
-        if (temparr[1] == "+")
-        {
-            if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "x")
-        {
-            if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "-")
-        {
-            if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "÷")
-        {
-            if (butt3.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
+        
     }
     void isgood4()
     {
+        if (itdone == false)
+        {
+            string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
+            if (temparr[1] == "+")
+            {
+                if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "x")
+            {
+                if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "-")
+            {
+                if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+            else if (temparr[1] == "÷")
+            {
+                if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
+                {
+                    move();
+                }
+                else
+                {
+                    fail();
+                }
+            }
+        }
 
-
-        string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
-        if (temparr[1] == "+")
-        {
-            if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) + Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "x")
-        {
-            if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) * Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "-")
-        {
-            if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) - Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
-        else if (temparr[1] == "÷")
-        {
-            if (butt4.GetComponentInChildren<Text>().text == (Convert.ToInt32(temparr[0]) / Convert.ToInt32(temparr[2])).ToString())
-            {
-                move();
-            }
-            else
-            {
-                fail();
-            }
-        }
+        
     }
 }
