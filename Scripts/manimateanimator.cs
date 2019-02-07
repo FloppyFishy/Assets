@@ -34,6 +34,7 @@ public class manimateanimator : MonoBehaviour {
         anim.enabled = false;
         GameObject.Find("Canva").GetComponent<buttongame>().done = false;
         confetti.SetActive(false);
+        GameObject.Find("Canva").GetComponent<buttongame>().bum = true;
     }
 
     public void moving()

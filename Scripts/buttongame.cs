@@ -31,8 +31,12 @@ public class buttongame : MonoBehaviour {
     bool yeah8 = false;
     bool yeah9 = false;
     bool failed = false;
+    bool fin;
+    bool poopoo;
+    public bool bum = true;
     public bool cheat;
     Vector3 camPos;
+    Vector3 tempos;
 
     int temp1;
     int temp2;
@@ -154,19 +158,47 @@ public class buttongame : MonoBehaviour {
         if (PlayerPrefs.GetInt("score") == 10)
         {
             GameObject.Find("next").SetActive(true);
-            finish();
+            if (fin == false)
+            {
+                finish();
+                fin = true;
+            }
         }
 
         if (failed == true && camera.transform.position != camPos)
         {
-            camera.transform.position = Vector3.Lerp(camera.transform.position, camPos, Time.deltaTime * 0.2F);
+            camera.transform.position = Vector3.Lerp(camera.transform.position, camPos, Time.deltaTime * 1F);
+        }
+
+        if (poopoo == true)
+        {
+            GameObject.Find("man").transform.position = tempos;
         }
 	}
 
+    private IEnumerator poo(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            manArmature.SetActive(false);
+            manFloppy.SetActive(true);
+            manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * -800F);
+            //poopoo = true;
+        }
+    }
+
     void finish()
     {
+        StartCoroutine(poo(2F));
+        //tempos = GameObject.Find("man").transform.position;
         conf1.SetActive(true);
         anim.SetBool("winanim", true);
+        butt1.gameObject.GetComponentInChildren<Text>().text = "Yay!";
+        butt2.gameObject.GetComponentInChildren<Text>().text = "Yay!";
+        butt3.gameObject.GetComponentInChildren<Text>().text = "Yay!";
+        butt4.gameObject.GetComponentInChildren<Text>().text = "Yay!";
     }
 
     void nexty()
@@ -464,7 +496,11 @@ public class buttongame : MonoBehaviour {
 
     void move()
     {
-        anim.SetTrigger("buttonpress");
+        if (bum == true)
+        {
+            anim.SetTrigger("buttonpress");
+            bum = false;
+        }
         if (done == false)
         {
             GameObject.Find("GameObject").GetComponent<manimateanimator>().moving();
@@ -487,7 +523,7 @@ public class buttongame : MonoBehaviour {
             manArmature.SetActive(false);
             manFloppy.SetActive(true);
             manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            manFloppy.GetComponent<Rigidbody2D>().AddForce(Vector3.back * 5F);
+            manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
             Debug.Log("failed");
             anim.SetBool("failanim", true);
         }
@@ -496,6 +532,7 @@ public class buttongame : MonoBehaviour {
 
     void isgood1()
     {
+
         string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
         if (temparr[1] == "+")
         {

@@ -60,6 +60,7 @@ public class stair : MonoBehaviour {
             stairClone.name = "stair" + count;
             
         }
+        GameObject.Find("stair9").transform.Find("flag").gameObject.SetActive(true);
 
         string[] temparr = stairy.GetComponentInChildren<Text>().text.Split(' ');
         int ans = 0;
@@ -324,7 +325,7 @@ public class stair : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+       
     }
 
     string ranQ()
