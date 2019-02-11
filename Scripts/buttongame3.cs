@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class buttongame : MonoBehaviour {
+public class buttongame3 : MonoBehaviour
+{
 
     public Button butt1, butt2, butt3, butt4;
     public Button reset;
@@ -23,6 +24,8 @@ public class buttongame : MonoBehaviour {
     public GameObject confetti;
     public GameObject conf1;
     public Text score;
+    public Text time;
+    public GameObject failreason;
     public bool done;
     int ansran;
     int oneitdone;
@@ -36,11 +39,13 @@ public class buttongame : MonoBehaviour {
     bool yeah8 = false;
     bool yeah9 = false;
     bool failed = false;
-    bool fin = false;
+    bool fin;
+    bool fial;
     bool poopoo;
     bool itdone;
     public bool bum = true;
     public bool cheat;
+    float timer;
     Vector3 camPos;
     Vector3 tempos;
 
@@ -52,6 +57,14 @@ public class buttongame : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        anim.SetBool("winanim", false);
+        PlayerPrefs.SetInt("score", 20);
+        fin = false;
+        anim.SetBool("timelimitshow", true);
+        timer = 0;
+        failreason.SetActive(false);
+        fial = false;
+        StartCoroutine(timey(1F));
         next.gameObject.SetActive(false);
         aud = GameObject.Find("man").GetComponent<AudioSource>();
         conf1.SetActive(false);
@@ -67,21 +80,22 @@ public class buttongame : MonoBehaviour {
         reset.onClick.AddListener(resety);
         next.onClick.AddListener(nexty);
         menu.onClick.AddListener(menuy);
-        PlayerPrefs.SetInt("score", 0);
-        PlayerPrefs.SetInt("level", 1);
+        PlayerPrefs.SetInt("level", 3);
         stairy = GameObject.Find("stair");
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         score.text = PlayerPrefs.GetInt("score").ToString();
-        if (PlayerPrefs.GetInt("level") == 1)
+        time.text = timer.ToString();
+        if (PlayerPrefs.GetInt("level") == 3)
         {
-            if (PlayerPrefs.GetInt("score") == 0)
+            if (PlayerPrefs.GetInt("score") == 20)
             {
                 stairy = GameObject.Find("stair");
             }
-            else if (PlayerPrefs.GetInt("score") == 1)
+            else if (PlayerPrefs.GetInt("score") == 21)
             {
                 stairy = GameObject.Find("stair1");
                 if (yeah == false)
@@ -90,7 +104,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 2)
+            else if (PlayerPrefs.GetInt("score") == 22)
             {
                 stairy = GameObject.Find("stair2");
                 if (yeah2 == false)
@@ -99,7 +113,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah2 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 3)
+            else if (PlayerPrefs.GetInt("score") == 23)
             {
                 stairy = GameObject.Find("stair3");
                 if (yeah3 == false)
@@ -108,7 +122,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah3 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 4)
+            else if (PlayerPrefs.GetInt("score") == 24)
             {
                 stairy = GameObject.Find("stair4");
                 if (yeah4 == false)
@@ -117,7 +131,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah4 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 5)
+            else if (PlayerPrefs.GetInt("score") == 25)
             {
                 stairy = GameObject.Find("stair5");
                 if (yeah5 == false)
@@ -126,7 +140,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah5 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 6)
+            else if (PlayerPrefs.GetInt("score") == 26)
             {
                 stairy = GameObject.Find("stair6");
                 if (yeah6 == false)
@@ -135,7 +149,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah6 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 7)
+            else if (PlayerPrefs.GetInt("score") == 27)
             {
                 stairy = GameObject.Find("stair7");
                 if (yeah7 == false)
@@ -144,7 +158,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah7 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 8)
+            else if (PlayerPrefs.GetInt("score") == 28)
             {
                 stairy = GameObject.Find("stair8");
                 if (yeah8 == false)
@@ -153,7 +167,7 @@ public class buttongame : MonoBehaviour {
                 }
                 yeah8 = true;
             }
-            else if (PlayerPrefs.GetInt("score") == 9)
+            else if (PlayerPrefs.GetInt("score") == 29)
             {
                 stairy = GameObject.Find("stair9");
                 if (yeah9 == false)
@@ -164,7 +178,7 @@ public class buttongame : MonoBehaviour {
             }
         }
 
-        if (PlayerPrefs.GetInt("score") == 10)
+        if (PlayerPrefs.GetInt("score") == 30)
         {
             if (fin == false)
             {
@@ -183,7 +197,24 @@ public class buttongame : MonoBehaviour {
             StopAllCoroutines();
             poopoo = false;
         }
-	}
+
+        if (timer == 10F && fial == false)
+        {
+            failreason.SetActive(true);
+            fail();
+            StopAllCoroutines();
+            fial = true;
+        }
+    }
+
+    private IEnumerator timey(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            timer++;
+        }
+    }
 
     private IEnumerator poo(float waitTime)
     {
@@ -193,13 +224,23 @@ public class buttongame : MonoBehaviour {
             manArmature.SetActive(false);
             manFloppy.SetActive(true);
             manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            manFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0,-5,0)) * -1000F);
+            manFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0, -5, 0)) * -1000F);
             poopoo = true;
+        }
+    }
+
+    void menuy()
+    {
+        SceneManager.LoadScene("menu");
+        if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
+        {
+            PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
         }
     }
 
     void finish()
     {
+        menu.gameObject.SetActive(false);
         next.gameObject.SetActive(true);
         aud.clip = win;
         aud.Play();
@@ -216,12 +257,15 @@ public class buttongame : MonoBehaviour {
 
     void nexty()
     {
-        SceneManager.LoadScene("game2");
+        SceneManager.LoadScene("menu");
+        if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
+        {
+            PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
+        }
     }
 
     void changeButton()
     {
-        Debug.Log("cahnaged the bnuttons");
         temp1 = Convert.ToInt32(butt1.GetComponentInChildren<Text>().text);
         temp2 = Convert.ToInt32(butt2.GetComponentInChildren<Text>().text);
         temp3 = Convert.ToInt32(butt3.GetComponentInChildren<Text>().text);
@@ -509,6 +553,7 @@ public class buttongame : MonoBehaviour {
 
     void move()
     {
+        timer = 0;
         aud.clip = donit;
         aud.Play();
         if (bum == true)
@@ -527,16 +572,7 @@ public class buttongame : MonoBehaviour {
 
     void resety()
     {
-        SceneManager.LoadScene("game");
-    }
-
-    void menuy()
-    {
-        SceneManager.LoadScene("menu");
-        if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
-        {
-            PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
-        }
+        SceneManager.LoadScene("game3");
     }
 
     void fail()
@@ -547,7 +583,6 @@ public class buttongame : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
             }
-
             aud.clip = lose;
             aud.Play();
             failed = true;
@@ -664,7 +699,7 @@ public class buttongame : MonoBehaviour {
                 }
             }
         }
-        
+
     }
     void isgood3()
     {
@@ -717,7 +752,7 @@ public class buttongame : MonoBehaviour {
             }
         }
 
-        
+
     }
     void isgood4()
     {
@@ -770,6 +805,12 @@ public class buttongame : MonoBehaviour {
             }
         }
 
-        
+
+    }
+
+    void timelimitshow()
+    {
+        anim.SetBool("timelimitshow", false);
+        GameObject.Find("timelimit").SetActive(false);
     }
 }
