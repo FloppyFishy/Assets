@@ -6267,7 +6267,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 450325071}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eee857b879bba1745ae45332dd260a29, type: 3}
+  m_Script: {fileID: 11500000, guid: 039376c98c66ee849aa7fb2d1c450b35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   butt1: {fileID: 609519061}
@@ -6411,7 +6411,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b22ce6216f4e4b41a55f772b74e4fda, type: 3}
+  m_Script: {fileID: 11500000, guid: b7a4f5b6058d6ee44ac8dede268587b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stairy: {fileID: 2096233217}
@@ -6419,6 +6419,7 @@ MonoBehaviour:
   butt2: {fileID: 1378007500}
   butt3: {fileID: 2048846860}
   butt4: {fileID: 610374325}
+  dostuff: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
