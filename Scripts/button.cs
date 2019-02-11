@@ -6,37 +6,39 @@ using UnityEngine.UI;
 
 public class button : MonoBehaviour {
 
-    public Button butt, reset;
+    public Button butt, reset, reset2, endless;
 
     // Use this for initialization
     void Start () {
-        reset.gameObject.SetActive(false);
         butt.onClick.AddListener(startgame);
         reset.onClick.AddListener(resety);
+        reset2.onClick.AddListener(resety2);
+        endless.onClick.AddListener(endlessy);
     }
 	
 	// Update is called once per frame
 	void Update () {
         GameObject.Find("best").GetComponent<Text>().text = "Best: " + PlayerPrefs.GetInt("best").ToString();
-
-        if (PlayerPrefs.GetInt("best") == 30)
-        {
-            reset.gameObject.SetActive(true);
-        }
-
-        if (PlayerPrefs.GetInt("best") < 30)
-        {
-            reset.gameObject.SetActive(false);
-        }
-	}
+        GameObject.Find("best (1)").GetComponent<Text>().text = "Best: " + PlayerPrefs.GetInt("best2").ToString();
+    }
 
     void startgame()
     {
         SceneManager.LoadScene("game");
     }
 
+    void endlessy()
+    {
+        SceneManager.LoadScene("endless");
+    }
+
     void resety()
     {
         PlayerPrefs.SetInt("best", 0);
+    }
+
+    void resety2()
+    {
+        PlayerPrefs.SetInt("best2", 0);
     }
 }
