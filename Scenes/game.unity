@@ -6218,12 +6218,13 @@ MonoBehaviour:
   butt4: {fileID: 610374325}
   reset: {fileID: 1181250465}
   next: {fileID: 2073397528}
-  aud: {fileID: 0}
+  aud: {fileID: 238387692}
   manArmature: {fileID: 265294969}
   manFloppy: {fileID: 685194092}
   camera: {fileID: 519420028}
   win: {fileID: 8300000, guid: 13e321e6b462d3844ad15bae6c1bc738, type: 3}
   lose: {fileID: 8300000, guid: f9f097dfbd3d7964595e85ca204a2af4, type: 3}
+  donit: {fileID: 8300000, guid: 8b95e9363e88a234491ed907d9458434, type: 3}
   anim: {fileID: 450325077}
   confetti: {fileID: 955304352}
   conf1: {fileID: 1926810302}

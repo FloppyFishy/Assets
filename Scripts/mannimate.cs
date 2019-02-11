@@ -13,6 +13,7 @@ public class mannimate : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         step = 100 * Time.deltaTime;
+        
     }
 	
 	// Update is called once per frame

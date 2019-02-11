@@ -17,6 +17,7 @@ public class buttongame : MonoBehaviour {
     public GameObject camera;
     public AudioClip win;
     public AudioClip lose;
+    public AudioClip donit;
     public Animator anim;
     public GameObject confetti;
     public GameObject conf1;
@@ -163,7 +164,6 @@ public class buttongame : MonoBehaviour {
 
         if (PlayerPrefs.GetInt("score") == 10)
         {
-            GameObject.Find("next").SetActive(true);
             if (fin == false)
             {
                 finish();
@@ -202,7 +202,7 @@ public class buttongame : MonoBehaviour {
         aud.clip = win;
         aud.Play();
         itdone = true;
-        StartCoroutine(poo(2F));
+        //StartCoroutine(poo(2F));
         //tempos = GameObject.Find("man").transform.position;
         conf1.SetActive(true);
         anim.SetBool("winanim", true);
@@ -507,6 +507,8 @@ public class buttongame : MonoBehaviour {
 
     void move()
     {
+        aud.clip = donit;
+        aud.Play();
         if (bum == true)
         {
             anim.SetTrigger("buttonpress");
