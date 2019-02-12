@@ -26,6 +26,7 @@ public class buttongameEndless : MonoBehaviour {
     public bool done;
     int ansran;
     int oneitdone;
+    int countpoo;
     bool yeah = false;
     bool yeah2 = false;
     bool yeah3 = false;
@@ -52,6 +53,7 @@ public class buttongameEndless : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        countpoo = 0;
         next.gameObject.SetActive(false);
         aud = GameObject.Find("man").GetComponent<AudioSource>();
         conf1.SetActive(false);
@@ -67,101 +69,13 @@ public class buttongameEndless : MonoBehaviour {
         reset.onClick.AddListener(resety);
         menu.onClick.AddListener(menuy);
         PlayerPrefs.SetInt("scoreEL", 0);
-        PlayerPrefs.SetInt("level", 1);
+        PlayerPrefs.SetInt("level", 0);
         stairy = GameObject.Find("stair");
     }
 	
 	// Update is called once per frame
 	void Update () {
         score.text = PlayerPrefs.GetInt("scoreEL").ToString();
-        if (PlayerPrefs.GetInt("level") == 1)
-        {
-            if (PlayerPrefs.GetInt("scoreEL") == 0)
-            {
-                stairy = GameObject.Find("stair");
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 1)
-            {
-                stairy = GameObject.Find("stair1");
-                if (yeah == false)
-                {
-                    changeButton();
-                }
-                yeah = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 2)
-            {
-                stairy = GameObject.Find("stair2");
-                if (yeah2 == false)
-                {
-                    changeButton();
-                }
-                yeah2 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 3)
-            {
-                stairy = GameObject.Find("stair3");
-                if (yeah3 == false)
-                {
-                    changeButton();
-                }
-                yeah3 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 4)
-            {
-                stairy = GameObject.Find("stair4");
-                if (yeah4 == false)
-                {
-                    changeButton();
-                }
-                yeah4 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 5)
-            {
-                stairy = GameObject.Find("stair5");
-                if (yeah5 == false)
-                {
-                    changeButton();
-                }
-                yeah5 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 6)
-            {
-                stairy = GameObject.Find("stair6");
-                if (yeah6 == false)
-                {
-                    changeButton();
-                }
-                yeah6 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 7)
-            {
-                stairy = GameObject.Find("stair7");
-                if (yeah7 == false)
-                {
-                    changeButton();
-                }
-                yeah7 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 8)
-            {
-                stairy = GameObject.Find("stair8");
-                if (yeah8 == false)
-                {
-                    changeButton();
-                }
-                yeah8 = true;
-            }
-            else if (PlayerPrefs.GetInt("scoreEL") == 9)
-            {
-                stairy = GameObject.Find("stair9");
-                if (yeah9 == false)
-                {
-                    changeButton();
-                }
-                yeah9 = true;
-            }
-        }
 
         if (failed == true && camera.transform.position != camPos)
         {
@@ -186,6 +100,11 @@ public class buttongameEndless : MonoBehaviour {
             manFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0,-5,0)) * -1000F);
             poopoo = true;
         }
+    }
+    private IEnumerator chan(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        changeButton();
     }
 
     void changeButton()
@@ -478,6 +397,10 @@ public class buttongameEndless : MonoBehaviour {
 
     void move()
     {
+        countpoo++;
+        stairy = GameObject.Find("stair" + countpoo.ToString());
+        StartCoroutine(chan(0.2F));
+        Debug.Log(stairy.name);
         GameObject.Find("camera").GetComponent<stairendless>().dostuff = false;
         aud.clip = donit;
         aud.Play();
@@ -497,15 +420,15 @@ public class buttongameEndless : MonoBehaviour {
 
     void resety()
     {
-        SceneManager.LoadScene("game");
+        SceneManager.LoadScene("endless");
     }
 
     void menuy()
     {
         SceneManager.LoadScene("menu");
-        if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("scoreEL"))
+        if (PlayerPrefs.GetInt("best2") < PlayerPrefs.GetInt("scoreEL"))
         {
-            PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("scoreEL"));
+            PlayerPrefs.SetInt("best2", PlayerPrefs.GetInt("scoreEL"));
         }
     }
 
@@ -513,9 +436,9 @@ public class buttongameEndless : MonoBehaviour {
     {
         if (cheat == false)
         {
-            if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("scoreEL"))
+            if (PlayerPrefs.GetInt("best2") < PlayerPrefs.GetInt("scoreEL"))
             {
-                PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("scoreEL"));
+                PlayerPrefs.SetInt("best2", PlayerPrefs.GetInt("scoreEL"));
             }
 
             aud.clip = lose;

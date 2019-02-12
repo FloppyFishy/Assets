@@ -6,13 +6,12 @@ using UnityEngine.UI;
 
 public class button : MonoBehaviour {
 
-    public Button butt, reset, reset2, endless;
+    public Button butt, reset, endless;
 
     // Use this for initialization
     void Start () {
         butt.onClick.AddListener(startgame);
         reset.onClick.AddListener(resety);
-        reset2.onClick.AddListener(resety2);
         endless.onClick.AddListener(endlessy);
     }
 	
@@ -35,6 +34,7 @@ public class button : MonoBehaviour {
     void resety()
     {
         PlayerPrefs.SetInt("best", 0);
+        PlayerPrefs.SetInt("best2", 0);
     }
 
     void resety2()
