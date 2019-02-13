@@ -6152,7 +6152,7 @@ MonoBehaviour:
   aud: {fileID: 238387692}
   manArmature: {fileID: 265294969}
   manFloppy: {fileID: 685194092}
-  camera: {fileID: 519420028}
+  cameras: {fileID: 519420028}
   win: {fileID: 8300000, guid: 13e321e6b462d3844ad15bae6c1bc738, type: 3}
   lose: {fileID: 8300000, guid: f9f097dfbd3d7964595e85ca204a2af4, type: 3}
   donit: {fileID: 8300000, guid: 8b95e9363e88a234491ed907d9458434, type: 3}
@@ -6194,6 +6194,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: camera
   m_TagString: MainCamera
@@ -6280,6 +6281,20 @@ Transform:
   m_Father: {fileID: 238387691}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df5311bd3595d8c42b2739351f3a60ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dampTime: 0.5
+  target: {fileID: 685194096}
+  cameras: {fileID: 519420031}
 --- !u!1 &571369296
 GameObject:
   m_ObjectHideFlags: 0

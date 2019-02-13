@@ -11,11 +11,11 @@ public class buttongameEndless : MonoBehaviour {
     public Button reset;
     public Button next;
     public Button menu;
-    GameObject stairy;
+    public GameObject stairy;
     public AudioSource aud;
     public GameObject manArmature;
     public GameObject manFloppy;
-    public GameObject camera;
+    public GameObject cameras;
     public AudioClip win;
     public AudioClip lose;
     public AudioClip donit;
@@ -53,13 +53,15 @@ public class buttongameEndless : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        reset.gameObject.SetActive(false);
+        menu.gameObject.SetActive(false);
+        next.gameObject.SetActive(false);
         countpoo = 0;
         next.gameObject.SetActive(false);
         aud = GameObject.Find("man").GetComponent<AudioSource>();
         conf1.SetActive(false);
         confetti.SetActive(false);
         failed = false;
-        camPos = camera.transform.position;
         manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         done = false;
         butt1.onClick.AddListener(isgood1);
@@ -76,11 +78,6 @@ public class buttongameEndless : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         score.text = PlayerPrefs.GetInt("scoreEL").ToString();
-
-        if (failed == true && camera.transform.position != camPos)
-        {
-            camera.transform.position = Vector3.Lerp(camera.transform.position, camPos, Time.deltaTime * 1F);
-        }
 
         if (poopoo == true)
         {
@@ -440,18 +437,41 @@ public class buttongameEndless : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("best2", PlayerPrefs.GetInt("scoreEL"));
             }
-
+            cameras.GetComponent<SmoothCamera2D>().enabled = true;
+            reset.gameObject.SetActive(true);
+            menu.gameObject.SetActive(true);
             aud.clip = lose;
             aud.Play();
             failed = true;
             manArmature.SetActive(false);
             manFloppy.SetActive(true);
-            manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+            StartCoroutine(fallfail(1.5F));
             Debug.Log("failed");
             anim.SetBool("failanim", true);
         }
 
+    }
+
+    private IEnumerator fallfail(float waitTime)
+    {
+        while (true)
+        {
+            if (cameras.transform.position.y > 0)
+            {
+                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+            }
+            else if (cameras.transform.position.y == 0)
+            {
+                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+            }
+            else
+            {
+                yield return null;
+            }
+            yield return new WaitForSeconds(waitTime);
+        }
     }
 
     void isgood1()

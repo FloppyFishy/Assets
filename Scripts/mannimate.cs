@@ -18,14 +18,18 @@ public class mannimate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (moove1 == true && man.transform.position != new Vector3(man.transform.position.x - 0.61F, man.transform.position.y + 0.535F, 0F))
+        if (PlayerPrefs.GetInt("level") == 0)
         {
-            transform.position = Vector3.Lerp(man.transform.position, new Vector3(man.transform.position.x - 0.61F, man.transform.position.y + 0.535F, 0F), Time.deltaTime * 2.7f);
+            if (moove1 == true)
+            {
+                transform.position = Vector3.Lerp(man.transform.position, GameObject.Find("Canva").GetComponent<buttongameEndless>().stairy.GetComponentInChildren<CircleCollider2D>().transform.position, Time.deltaTime * 2.7f);
+            }
+            if (moove2 == true)
+            {
+                transform.position = Vector3.Lerp(man.transform.position, GameObject.Find("Canva").GetComponent<buttongameEndless>().stairy.GetComponentInChildren<CapsuleCollider2D>().transform.position, Time.deltaTime * 2.8f);
+            }
         }
-        if (moove2 == true && man.transform.position != new Vector3(man.transform.position.x - 0.81F, man.transform.position.y + 0.535F, 0F))
-        {
-            transform.position = Vector3.Lerp(man.transform.position, new Vector3(man.transform.position.x - 0.81F, man.transform.position.y + 0.535F, 0F), Time.deltaTime * 2.8f);
-        }
+
 	}
 
     public void move1()

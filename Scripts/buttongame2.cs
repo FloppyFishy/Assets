@@ -11,11 +11,11 @@ public class buttongame2 : MonoBehaviour {
     public Button reset;
     public Button next;
     public Button menu;
-    GameObject stairy;
+    public GameObject stairy;
     public AudioSource aud;
     public GameObject manArmature;
     public GameObject manFloppy;
-    public GameObject camera;
+    public GameObject cameras;
     public AudioClip win;
     public AudioClip lose;
     public AudioClip donit;
@@ -56,6 +56,9 @@ public class buttongame2 : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        reset.gameObject.SetActive(false);
+        menu.gameObject.SetActive(false);
+        next.gameObject.SetActive(false);
         anim.SetBool("winanim", false);
         PlayerPrefs.SetInt("score", 10);
         fin = false;
@@ -69,7 +72,7 @@ public class buttongame2 : MonoBehaviour {
         conf1.SetActive(false);
         confetti.SetActive(false);
         failed = false;
-        camPos = camera.transform.position;
+        camPos = cameras.transform.position;
         manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         done = false;
         butt1.onClick.AddListener(isgood1);
@@ -98,7 +101,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair1");
                 if (yeah == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah = true;
             }
@@ -107,7 +110,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair2");
                 if (yeah2 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah2 = true;
             }
@@ -116,7 +119,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair3");
                 if (yeah3 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah3 = true;
             }
@@ -125,7 +128,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair4");
                 if (yeah4 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah4 = true;
             }
@@ -134,7 +137,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair5");
                 if (yeah5 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah5 = true;
             }
@@ -143,7 +146,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair6");
                 if (yeah6 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah6 = true;
             }
@@ -152,7 +155,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair7");
                 if (yeah7 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah7 = true;
             }
@@ -161,7 +164,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair8");
                 if (yeah8 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah8 = true;
             }
@@ -170,7 +173,7 @@ public class buttongame2 : MonoBehaviour {
                 stairy = GameObject.Find("stair9");
                 if (yeah9 == false)
                 {
-                    changeButton();
+                    StartCoroutine(changebutt(0.6F));
                 }
                 yeah9 = true;
             }
@@ -183,11 +186,6 @@ public class buttongame2 : MonoBehaviour {
                 finish();
                 fin = true;
             }
-        }
-
-        if (failed == true && camera.transform.position != camPos)
-        {
-            camera.transform.position = Vector3.Lerp(camera.transform.position, camPos, Time.deltaTime * 1F);
         }
 
         if (poopoo == true)
@@ -238,6 +236,7 @@ public class buttongame2 : MonoBehaviour {
 
     void finish()
     {
+        menu.gameObject.SetActive(true);
         next.gameObject.SetActive(true);
         aud.clip = win;
         aud.Play();
@@ -255,6 +254,12 @@ public class buttongame2 : MonoBehaviour {
     void nexty()
     {
         SceneManager.LoadScene("game3");
+    }
+
+    private IEnumerator changebutt(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        changeButton();
     }
 
     void changeButton()
@@ -577,17 +582,41 @@ public class buttongame2 : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
             }
+            cameras.GetComponent<SmoothCamera2D>().enabled = true;
+            reset.gameObject.SetActive(true);
+            menu.gameObject.SetActive(true);
             aud.clip = lose;
             aud.Play();
             failed = true;
             manArmature.SetActive(false);
             manFloppy.SetActive(true);
-            manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+            StartCoroutine(fallfail(1.5F));
             Debug.Log("failed");
             anim.SetBool("failanim", true);
         }
 
+    }
+
+    private IEnumerator fallfail(float waitTime)
+    {
+        while (true)
+        {
+            if (cameras.transform.position.y > 0)
+            {
+                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+            }
+            else if (cameras.transform.position.y == 0)
+            {
+                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+            }
+            else
+            {
+                yield return null;
+            }
+            yield return new WaitForSeconds(waitTime);
+        }
     }
 
     void isgood1()
