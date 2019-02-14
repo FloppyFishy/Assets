@@ -201,14 +201,22 @@ public class buttongame2 : MonoBehaviour {
             StopAllCoroutines();
             fial = true;
         }
-	}
+    }
 
     private IEnumerator timey(float waitTime)
     {
         while (true)
         {
-            yield return new WaitForSeconds(waitTime);
-            timer++;
+            if (failed == false)
+            {
+                yield return new WaitForSeconds(waitTime);
+                timer++;
+            }
+            else
+            {
+                yield return null;
+            }
+
         }
     }
 
@@ -241,7 +249,7 @@ public class buttongame2 : MonoBehaviour {
         aud.clip = win;
         aud.Play();
         itdone = true;
-        StartCoroutine(poo(2F));
+        StartCoroutine(poo(0.3F));
         //tempos = GameObject.Find("man").transform.position;
         conf1.SetActive(true);
         anim.SetBool("winanim", true);
@@ -555,7 +563,7 @@ public class buttongame2 : MonoBehaviour {
         timer = 0;
         aud.clip = donit;
         aud.Play();
-        if (bum == true)
+        if (bum == true && PlayerPrefs.GetInt("score") < 19)
         {
             anim.SetTrigger("buttonpress");
             bum = false;
@@ -582,6 +590,7 @@ public class buttongame2 : MonoBehaviour {
             {
                 PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
             }
+            StopCoroutine(timey(1F));
             cameras.GetComponent<SmoothCamera2D>().enabled = true;
             reset.gameObject.SetActive(true);
             menu.gameObject.SetActive(true);

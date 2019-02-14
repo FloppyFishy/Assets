@@ -38,6 +38,7 @@ public class buttongame : MonoBehaviour {
     bool failed = false;
     bool fin = false;
     bool poopoo;
+    bool camerafin;
     bool itdone;
     public bool bum = true;
     public bool cheat;
@@ -52,6 +53,7 @@ public class buttongame : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        camerafin = false;
         reset.gameObject.SetActive(false);
         menu.gameObject.SetActive(false);
         next.gameObject.SetActive(false);
@@ -209,7 +211,7 @@ public class buttongame : MonoBehaviour {
         aud.clip = win;
         aud.Play();
         itdone = true;
-        StartCoroutine(poo(2F));
+        StartCoroutine(poo(0.3F));
         //tempos = GameObject.Find("man").transform.position;
         conf1.SetActive(true);
         anim.SetBool("winanim", true);
@@ -516,7 +518,7 @@ public class buttongame : MonoBehaviour {
     {
         aud.clip = donit;
         aud.Play();
-        if (bum == true)
+        if (bum == true && PlayerPrefs.GetInt("score") < 9)
         {
             anim.SetTrigger("buttonpress");
             bum = false;

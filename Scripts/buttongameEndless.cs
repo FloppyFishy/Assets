@@ -91,6 +91,7 @@ public class buttongameEndless : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
+            cameras.GetComponent<SmoothCamera2D>().enabled = true;
             manArmature.SetActive(false);
             manFloppy.SetActive(true);
             manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;

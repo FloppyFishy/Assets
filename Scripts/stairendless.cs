@@ -17,16 +17,18 @@ public class stairendless : MonoBehaviour
     public bool dostuff;
     List<string> donesums = new List<string>();
     Vector3 stairpos;
+    string egg;
 
 
     // Use this for initialization
     void Start()
     {
+        egg = PlayerPrefs.GetString("qt");
         stairpos = new Vector3(-1.45F, 1.06F, 0);
-        texty = ranQ();
+        texty = ranQ(egg);
         while (texty == "no")
         {
-            texty = ranQ();
+            texty = ranQ(egg);
         }
         if (texty == "no")
         {
@@ -35,10 +37,10 @@ public class stairendless : MonoBehaviour
         stairy.GetComponentInChildren<Text>().text = texty;
         count = 1;
         stairClone = Instantiate(stairy, stairy.transform.position + stairpos, stairy.transform.rotation);
-        texty = ranQ();
+        texty = ranQ(egg);
         while (texty == "no")
         {
-            texty = ranQ();
+            texty = ranQ(egg);
         }
         if (texty == "no")
         {
@@ -325,10 +327,10 @@ public class stairendless : MonoBehaviour
         {
             count++;
             stairClone = Instantiate(stairy, stairClone.transform.position + stairpos, stairy.transform.rotation);
-            texty = ranQ();
+            texty = ranQ(egg);
             while (texty == "no")
             {
-                texty = ranQ();
+                texty = ranQ(egg);
             }
             if (texty == "no")
             {
@@ -339,10 +341,37 @@ public class stairendless : MonoBehaviour
         }
     }
 
-    string ranQ()
+    string ranQ(string op)
     {
+        string output;
         string[] operaters = { " + ", " - ", " ÷ ", " x " };
-        string output = UnityEngine.Random.Range(1, 13).ToString() + operaters[UnityEngine.Random.Range(0, operaters.Length)] + UnityEngine.Random.Range(1, 13).ToString();
+        if (op == "All")
+        {
+            output = UnityEngine.Random.Range(1, 13).ToString() + operaters[UnityEngine.Random.Range(0, operaters.Length)] + UnityEngine.Random.Range(1, 13).ToString();
+        }
+        else if (op == "Add")
+        {
+            output = UnityEngine.Random.Range(1, 13).ToString() + " + " + UnityEngine.Random.Range(1, 13).ToString();
+
+        }
+        else if (op == "Times")
+        {
+            output = UnityEngine.Random.Range(1, 13).ToString() + " x " + UnityEngine.Random.Range(1, 13).ToString();
+
+        }
+        else if (op == "Divide")
+        {
+            output = UnityEngine.Random.Range(1, 13).ToString() + " ÷ " + UnityEngine.Random.Range(1, 13).ToString();
+        }
+        else if (op == "Minus")
+        {
+            output = UnityEngine.Random.Range(1, 13).ToString() + " - " + UnityEngine.Random.Range(1, 13).ToString();
+        }
+        else
+        {
+            output = UnityEngine.Random.Range(1, 13).ToString() + operaters[UnityEngine.Random.Range(0, operaters.Length)] + UnityEngine.Random.Range(1, 13).ToString();
+
+        }
         string[] valid = output.Split(' ');
         if (valid[1] == "÷")
         {

@@ -209,8 +209,15 @@ public class buttongame3 : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(waitTime);
-            timer++;
+            if (failed == false)
+            {
+                yield return new WaitForSeconds(waitTime);
+                timer++;
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
@@ -238,13 +245,11 @@ public class buttongame3 : MonoBehaviour
 
     void finish()
     {
-
-        menu.gameObject.SetActive(true);
         next.gameObject.SetActive(true);
         aud.clip = win;
         aud.Play();
         itdone = true;
-        StartCoroutine(poo(2F));
+        StartCoroutine(poo(0.3F));
         //tempos = GameObject.Find("man").transform.position;
         conf1.SetActive(true);
         anim.SetBool("winanim", true);
@@ -561,7 +566,7 @@ public class buttongame3 : MonoBehaviour
         timer = 0;
         aud.clip = donit;
         aud.Play();
-        if (bum == true)
+        if (bum == true && PlayerPrefs.GetInt("score") < 29)
         {
             anim.SetTrigger("buttonpress");
             bum = false;
@@ -588,6 +593,7 @@ public class buttongame3 : MonoBehaviour
             {
                 PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
             }
+            StopCoroutine(timey(1F));
             cameras.GetComponent<SmoothCamera2D>().enabled = true;
             reset.gameObject.SetActive(true);
             menu.gameObject.SetActive(true);

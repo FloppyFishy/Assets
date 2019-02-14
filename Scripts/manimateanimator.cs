@@ -59,7 +59,34 @@ public class manimateanimator : MonoBehaviour {
 
     public void moving()
     {
-        anim.enabled = true;
-        anim.SetBool("up", true);
+        if (PlayerPrefs.GetInt("level") == 0)
+        {
+            anim.enabled = true;
+            anim.SetBool("up", true);
+        }
+        else if (PlayerPrefs.GetInt("level") == 1)
+        {
+            if (PlayerPrefs.GetInt("score") < 9)
+            {
+                anim.enabled = true;
+                anim.SetBool("up", true);
+            }
+        }
+        else if (PlayerPrefs.GetInt("level") == 2)
+        {
+            if (PlayerPrefs.GetInt("score") < 19)
+            {
+                anim.enabled = true;
+                anim.SetBool("up", true);
+            }
+        }
+        else if (PlayerPrefs.GetInt("level") == 3)
+        {
+            if (PlayerPrefs.GetInt("score") < 29)
+            {
+                anim.enabled = true;
+                anim.SetBool("up", true);
+            }
+        }
     }
 }
