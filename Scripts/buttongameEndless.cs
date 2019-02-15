@@ -39,7 +39,7 @@ public class buttongameEndless : MonoBehaviour {
     bool failed = false;
     bool fin = false;
     bool poopoo;
-    bool itdone;
+    public bool itdone;
     public bool bum = true;
     public bool cheat;
     Vector3 camPos;
@@ -395,6 +395,7 @@ public class buttongameEndless : MonoBehaviour {
 
     void move()
     {
+        itdone = true;
         countpoo++;
         stairy = GameObject.Find("stair" + countpoo.ToString());
         StartCoroutine(chan(0.2F));
@@ -432,6 +433,7 @@ public class buttongameEndless : MonoBehaviour {
 
     void fail()
     {
+        itdone = true;
         if (cheat == false)
         {
             if (PlayerPrefs.GetInt("best2") < PlayerPrefs.GetInt("scoreEL"))

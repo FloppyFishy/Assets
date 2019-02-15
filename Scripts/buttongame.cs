@@ -39,7 +39,7 @@ public class buttongame : MonoBehaviour {
     bool fin = false;
     bool poopoo;
     bool camerafin;
-    bool itdone;
+    public bool itdone;
     public bool bum = true;
     public bool cheat;
     Vector3 camPos;
@@ -516,6 +516,7 @@ public class buttongame : MonoBehaviour {
 
     void move()
     {
+        itdone = true;
         aud.clip = donit;
         aud.Play();
         if (bum == true && PlayerPrefs.GetInt("score") < 9)
@@ -548,6 +549,7 @@ public class buttongame : MonoBehaviour {
 
     void fail()
     {
+        itdone = true;
         if (cheat == false)
         {
             if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))

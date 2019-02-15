@@ -41,7 +41,7 @@ public class buttongame2 : MonoBehaviour {
     bool fin;
     bool fial;
     bool poopoo;
-    bool itdone;
+    public bool itdone;
     public bool bum = true;
     public bool cheat;
     float timer;
@@ -560,6 +560,7 @@ public class buttongame2 : MonoBehaviour {
 
     void move()
     {
+        itdone = true;
         timer = 0;
         aud.clip = donit;
         aud.Play();
@@ -584,6 +585,7 @@ public class buttongame2 : MonoBehaviour {
 
     void fail()
     {
+        itdone = true;
         if (cheat == false)
         {
             if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
