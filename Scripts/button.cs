@@ -7,10 +7,14 @@ using UnityEngine.UI;
 public class button : MonoBehaviour {
 
     public Button butt, reset, endless, settings;
-    public Button back;
+    public Button back, man, woman;
     public Slider qt;
     public Animator anim;
     public Text sliderv;
+    public Image tickman, tickwoman;
+    bool canback;
+    bool m; 
+    bool w;
 
     // Use this for initialization
     void Start () {
@@ -19,7 +23,28 @@ public class button : MonoBehaviour {
         endless.onClick.AddListener(endlessy);
         back.onClick.AddListener(backy);
         settings.onClick.AddListener(set);
+        man.onClick.AddListener(many);
+        woman.onClick.AddListener(womany);
         qt.onValueChanged.AddListener(delegate { chnit(); });
+
+        m = false;
+        w = false;
+        if (PlayerPrefs.GetInt("character") == 0)
+        {
+            tickman.gameObject.SetActive(true);
+            tickwoman.gameObject.SetActive(false);
+        } else if (PlayerPrefs.GetInt("character") == 1)
+        {
+            tickman.gameObject.SetActive(false);
+            tickwoman.gameObject.SetActive(true);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("character", 0);
+            tickman.gameObject.SetActive(true);
+            tickwoman.gameObject.SetActive(false);
+        }
+        canback = false;
 
         if (PlayerPrefs.GetString("qt") == "Add")
         {
@@ -70,6 +95,11 @@ public class button : MonoBehaviour {
         GameObject.Find("best").GetComponent<Text>().text = "Best: " + PlayerPrefs.GetInt("best").ToString();
         GameObject.Find("best (1)").GetComponent<Text>().text = "Best: " + PlayerPrefs.GetInt("best2").ToString();
 
+        if (Input.GetKey(KeyCode.Escape) && canback == true)
+        {
+            backy();
+        }
+
     }
 
     void startgame()
@@ -95,6 +125,7 @@ public class button : MonoBehaviour {
 
     void backy()
     {
+        canback = false;
         anim.enabled = true;
         settings.gameObject.SetActive(true);
     }
@@ -136,6 +167,7 @@ public class button : MonoBehaviour {
 
     public void animstop()
     {
+        canback = true;
         settings.gameObject.SetActive(false);
         anim.enabled = false;
     }
@@ -143,5 +175,29 @@ public class button : MonoBehaviour {
     void backhide()
     {
         back.gameObject.SetActive(false);
+    }
+
+    void many()
+    {
+        if (m == false)
+        {
+            tickman.gameObject.SetActive(true);
+            tickwoman.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("character", 0);
+            m = true;
+            w = false;
+        }
+    }
+
+    void womany()
+    {
+        if (w == false)
+        {
+            tickman.gameObject.SetActive(false);
+            tickwoman.gameObject.SetActive(true);
+            PlayerPrefs.SetInt("character", 1);
+            w = true;
+            m = false;
+        }
     }
 }

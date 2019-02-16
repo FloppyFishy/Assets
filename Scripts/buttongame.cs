@@ -15,6 +15,8 @@ public class buttongame : MonoBehaviour {
     public AudioSource aud;
     public GameObject manArmature;
     public GameObject manFloppy;
+    public GameObject woArmature;
+    public GameObject woFloppy;
     public GameObject cameras;
     public AudioClip win;
     public AudioClip lose;
@@ -53,6 +55,28 @@ public class buttongame : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        if (PlayerPrefs.GetInt("character") == 0)
+        {
+            manFloppy.SetActive(false);
+            woFloppy.SetActive(false);
+            manArmature.SetActive(true);
+            woArmature.SetActive(false);
+        }
+        else if (PlayerPrefs.GetInt("character") == 1)
+        {
+            manFloppy.SetActive(false);
+            woFloppy.SetActive(false);
+            manArmature.SetActive(false);
+            woArmature.SetActive(true);
+        }
+        else
+        {
+            manFloppy.SetActive(false);
+            woFloppy.SetActive(false);
+            manArmature.SetActive(true);
+            woArmature.SetActive(false);
+        }
+
         camerafin = false;
         reset.gameObject.SetActive(false);
         menu.gameObject.SetActive(false);
@@ -63,6 +87,7 @@ public class buttongame : MonoBehaviour {
         failed = false;
         camPos = cameras.transform.position;
         manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        woFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         done = false;
         butt1.onClick.AddListener(isgood1);
         butt2.onClick.AddListener(isgood2);
@@ -189,10 +214,27 @@ public class buttongame : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
-            manArmature.SetActive(false);
-            manFloppy.SetActive(true);
-            manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-            manFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0,-5,0)) * -1000F);
+            if (PlayerPrefs.GetInt("character") == 0)
+            {
+                manArmature.SetActive(false);
+                manFloppy.SetActive(true);
+                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                manFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0, -5, 0)) * -1000F);
+            }
+            else if (PlayerPrefs.GetInt("character") == 1)
+            {
+                woArmature.SetActive(false);
+                woFloppy.SetActive(true);
+                woFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                woFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0, -5, 0)) * -1000F);
+            }
+            else
+            {
+                manArmature.SetActive(false);
+                manFloppy.SetActive(true);
+                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                manFloppy.GetComponent<Rigidbody2D>().AddForce((transform.right + new Vector3(0, -5, 0)) * -1000F);
+            }
             poopoo = true;
         }
     }
@@ -526,7 +568,18 @@ public class buttongame : MonoBehaviour {
         }
         if (done == false)
         {
-            GameObject.Find("GameObject").GetComponent<manimateanimator>().moving();
+            if (PlayerPrefs.GetInt("character") == 0)
+            {
+                manArmature.GetComponent<manimateanimator>().moving();
+            }
+            else if (PlayerPrefs.GetInt("character") == 1)
+            {
+                woArmature.GetComponent<manimateanimator>().moving();
+            }
+            else
+            {
+                manArmature.GetComponent<manimateanimator>().moving();
+            }
             PlayerPrefs.SetInt("score", PlayerPrefs.GetInt("score") + 1);
         }
         done = true;
@@ -562,8 +615,32 @@ public class buttongame : MonoBehaviour {
             aud.clip = lose;
             aud.Play();
             failed = true;
-            manArmature.SetActive(false);
-            manFloppy.SetActive(true);
+            if (PlayerPrefs.GetInt("character") == 0)
+            {
+                manArmature.SetActive(false);
+            }
+            else if (PlayerPrefs.GetInt("character") == 1)
+            {
+                woArmature.SetActive(false);
+            }
+            else
+            {
+                manArmature.SetActive(false);
+            }
+
+            if (PlayerPrefs.GetInt("character") == 0)
+            {
+                manFloppy.SetActive(true);
+            }
+            else if (PlayerPrefs.GetInt("character") == 1)
+            {
+                woFloppy.SetActive(true);
+            }
+            else
+            {
+                manFloppy.SetActive(true);
+            }
+
             StartCoroutine(fallfail(1.5F));
             Debug.Log("failed");
             anim.SetBool("failanim", true);
@@ -575,18 +652,59 @@ public class buttongame : MonoBehaviour {
     {
         while (true)
         {
-            if (cameras.transform.position.y > 0)
+            if (PlayerPrefs.GetInt("character") == 0)
             {
-                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
-            }else if (cameras.transform.position.y == 0)
-            {
-                manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
-                manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
-            }else
-            {
-                yield return null;
+                if (cameras.transform.position.y > 0)
+                {
+                    manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+                }
+                else if (cameras.transform.position.y == 0)
+                {
+                    manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+                }
+                else
+                {
+                    yield return null;
+                }
             }
+            else if (PlayerPrefs.GetInt("character") == 1)
+            {
+                if (cameras.transform.position.y > 0)
+                {
+                    woFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    woFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+                }
+                else if (cameras.transform.position.y == 0)
+                {
+                    woFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    woFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+                }
+                else
+                {
+                    yield return null;
+                }
+            }
+            else
+            {
+                if (cameras.transform.position.y > 0)
+                {
+                    manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+                }
+                else if (cameras.transform.position.y == 0)
+                {
+                    manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+                    manFloppy.GetComponent<Rigidbody2D>().AddForce(transform.right * 800F);
+                }
+                else
+                {
+                    yield return null;
+                }
+            }
+
+
             yield return new WaitForSeconds(waitTime);
         }
     }
