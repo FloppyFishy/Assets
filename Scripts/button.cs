@@ -104,6 +104,8 @@ public class button : MonoBehaviour {
 
     void startgame()
     {
+        PlayerPrefs.SetInt("score", 0);
+        PlayerPrefs.SetInt("level", 1);
         SceneManager.LoadScene("game");
     }
 

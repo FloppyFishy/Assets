@@ -24,6 +24,7 @@ public class buttongame : MonoBehaviour {
     public Animator anim;
     public GameObject confetti;
     public GameObject conf1;
+    public GameObject failreason;
     public Text score;
     public bool done;
     int ansran;
@@ -39,11 +40,13 @@ public class buttongame : MonoBehaviour {
     bool yeah9 = false;
     bool failed = false;
     bool fin = false;
+    bool fial;
     bool poopoo;
     bool camerafin;
     public bool itdone;
     public bool bum = true;
     public bool cheat;
+    float timer;
     Vector3 camPos;
     Vector3 tempos;
 
@@ -77,18 +80,50 @@ public class buttongame : MonoBehaviour {
             woArmature.SetActive(false);
         }
 
+        if (PlayerPrefs.GetInt("level") == 1)
+        {
+            anim.SetBool("timelimitshow", false);
+            failreason.SetActive(false);
+        }
+        else if (PlayerPrefs.GetInt("level") == 2)
+        {
+            anim.SetBool("timelimitshow", true);
+            failreason.SetActive(true);
+        }
+        else if (PlayerPrefs.GetInt("level") == 3)
+        {
+            anim.SetBool("timelimitshow", true);
+            failreason.SetActive(true);
+        }
+        else
+        {
+            anim.SetBool("timelimitshow", false);
+            failreason.SetActive(false);
+        }
+
+        anim.SetBool("timelimitshow", true);
+        anim.SetBool("winanim", false);
+
         camerafin = false;
+        failed = false;
+        done = false;
+        fin = false;
+        fial = false;
+
         reset.gameObject.SetActive(false);
         menu.gameObject.SetActive(false);
         next.gameObject.SetActive(false);
-        aud = GameObject.Find("man").GetComponent<AudioSource>();
         conf1.SetActive(false);
         confetti.SetActive(false);
-        failed = false;
+
+        aud = GameObject.Find("man").GetComponent<AudioSource>();
+        stairy = GameObject.Find("stair");
+
         camPos = cameras.transform.position;
+
         manFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         woFloppy.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        done = false;
+
         butt1.onClick.AddListener(isgood1);
         butt2.onClick.AddListener(isgood2);
         butt3.onClick.AddListener(isgood3);
@@ -96,9 +131,8 @@ public class buttongame : MonoBehaviour {
         reset.onClick.AddListener(resety);
         next.onClick.AddListener(nexty);
         menu.onClick.AddListener(menuy);
-        PlayerPrefs.SetInt("score", 0);
+
         PlayerPrefs.SetInt("level", 1);
-        stairy = GameObject.Find("stair");
     }
 	
 	// Update is called once per frame
@@ -192,8 +226,214 @@ public class buttongame : MonoBehaviour {
                 yeah9 = true;
             }
         }
+        if (PlayerPrefs.GetInt("level") == 2)
+        {
+            if (timer == 20F && fial == false)
+            {
+                failreason.SetActive(true);
+                fail();
+                StopAllCoroutines();
+                fial = true;
+            }
+            if (PlayerPrefs.GetInt("score") == 10)
+            {
+                stairy = GameObject.Find("stair");
+            }
+            else if (PlayerPrefs.GetInt("score") == 11)
+            {
+                stairy = GameObject.Find("stair1");
+                if (yeah == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 12)
+            {
+                stairy = GameObject.Find("stair2");
+                if (yeah2 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah2 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 13)
+            {
+                stairy = GameObject.Find("stair3");
+                if (yeah3 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah3 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 14)
+            {
+                stairy = GameObject.Find("stair4");
+                if (yeah4 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah4 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 15)
+            {
+                stairy = GameObject.Find("stair5");
+                if (yeah5 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah5 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 16)
+            {
+                stairy = GameObject.Find("stair6");
+                if (yeah6 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah6 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 17)
+            {
+                stairy = GameObject.Find("stair7");
+                if (yeah7 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah7 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 18)
+            {
+                stairy = GameObject.Find("stair8");
+                if (yeah8 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah8 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 19)
+            {
+                stairy = GameObject.Find("stair9");
+                if (yeah9 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah9 = true;
+            }
+        }
+        if (PlayerPrefs.GetInt("level") == 3)
+        {
+            if (timer == 10F && fial == false)
+            {
+                failreason.SetActive(true);
+                fail();
+                StopAllCoroutines();
+                fial = true;
+            }
+            if (PlayerPrefs.GetInt("score") == 20)
+            {
+                stairy = GameObject.Find("stair");
+            }
+            else if (PlayerPrefs.GetInt("score") == 21)
+            {
+                stairy = GameObject.Find("stair1");
+                if (yeah == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 22)
+            {
+                stairy = GameObject.Find("stair2");
+                if (yeah2 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah2 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 23)
+            {
+                stairy = GameObject.Find("stair3");
+                if (yeah3 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah3 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 24)
+            {
+                stairy = GameObject.Find("stair4");
+                if (yeah4 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah4 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 25)
+            {
+                stairy = GameObject.Find("stair5");
+                if (yeah5 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah5 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 26)
+            {
+                stairy = GameObject.Find("stair6");
+                if (yeah6 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah6 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 27)
+            {
+                stairy = GameObject.Find("stair7");
+                if (yeah7 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah7 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 28)
+            {
+                stairy = GameObject.Find("stair8");
+                if (yeah8 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah8 = true;
+            }
+            else if (PlayerPrefs.GetInt("score") == 29)
+            {
+                stairy = GameObject.Find("stair9");
+                if (yeah9 == false)
+                {
+                    StartCoroutine(changebutt(0.6F));
+                }
+                yeah9 = true;
+            }
+        }
 
         if (PlayerPrefs.GetInt("score") == 10)
+        {
+            if (fin == false)
+            {
+                finish();
+                fin = true;
+            }
+        }
+        if (PlayerPrefs.GetInt("score") == 20)
+        {
+            if (fin == false)
+            {
+                finish();
+                fin = true;
+            }
+        }
+        if (PlayerPrefs.GetInt("score") == 30)
         {
             if (fin == false)
             {
@@ -208,6 +448,23 @@ public class buttongame : MonoBehaviour {
             poopoo = false;
         }
 	}
+
+    private IEnumerator timey(float waitTime)
+    {
+        while (true)
+        {
+            if (failed == false)
+            {
+                yield return new WaitForSeconds(waitTime);
+                timer++;
+            }
+            else
+            {
+                yield return null;
+            }
+
+        }
+    }
 
     private IEnumerator poo(float waitTime)
     {
@@ -245,6 +502,15 @@ public class buttongame : MonoBehaviour {
         changeButton();
     }
 
+    void menuy()
+    {
+        SceneManager.LoadScene("menu");
+        if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
+        {
+            PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
+        }
+    }
+
     void finish()
     {
         
@@ -265,7 +531,29 @@ public class buttongame : MonoBehaviour {
 
     void nexty()
     {
-        SceneManager.LoadScene("game2");
+        if (PlayerPrefs.GetInt("level") == 1)
+        {
+            PlayerPrefs.SetInt("level", 2);
+            SceneManager.LoadScene("game2");
+        }
+        else if (PlayerPrefs.GetInt("level") == 2)
+        {
+            PlayerPrefs.SetInt("level", 3);
+            SceneManager.LoadScene("game3");
+        }
+        else if (PlayerPrefs.GetInt("level") == 3)
+        {
+            SceneManager.LoadScene("menu");
+            if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
+            {
+                PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt("level", 1);
+            SceneManager.LoadScene("game");
+        }
     }
 
     void changeButton()
@@ -561,11 +849,36 @@ public class buttongame : MonoBehaviour {
         itdone = true;
         aud.clip = donit;
         aud.Play();
-        if (bum == true && PlayerPrefs.GetInt("score") < 9)
+        if (PlayerPrefs.GetInt("level") == 1)
         {
-            anim.SetTrigger("buttonpress");
-            bum = false;
+            if (bum == true && PlayerPrefs.GetInt("score") < 9)
+            {
+                anim.SetTrigger("buttonpress");
+                bum = false;
+            }
         }
+        else if (PlayerPrefs.GetInt("level") == 2)
+        {
+            if (bum == true && PlayerPrefs.GetInt("score") < 19)
+            {
+                anim.SetTrigger("buttonpress");
+                bum = false;
+            }
+        }
+        else if (PlayerPrefs.GetInt("level") == 3)
+        {
+            if (bum == true && PlayerPrefs.GetInt("score") < 29)
+            {
+                anim.SetTrigger("buttonpress");
+                bum = false;
+            }
+        }
+        else
+        {
+            Debug.Log("error");
+        }
+
+
         if (done == false)
         {
             if (PlayerPrefs.GetInt("character") == 0)
@@ -588,17 +901,24 @@ public class buttongame : MonoBehaviour {
 
     void resety()
     {
-        SceneManager.LoadScene("game");
-    }
-
-    void menuy()
-    {
-        SceneManager.LoadScene("menu");
-        if (PlayerPrefs.GetInt("best") < PlayerPrefs.GetInt("score"))
+        if (PlayerPrefs.GetInt("level") == 1)
         {
-            PlayerPrefs.SetInt("best", PlayerPrefs.GetInt("score"));
+            SceneManager.LoadScene("game");
+        }
+        else if (PlayerPrefs.GetInt("level") == 2)
+        {
+            SceneManager.LoadScene("game2");
+        }
+        else if (PlayerPrefs.GetInt("level") == 3)
+        {
+            SceneManager.LoadScene("game3");
+        }
+        else
+        {
+            SceneManager.LoadScene("game");
         }
     }
+
 
     void fail()
     {
@@ -919,5 +1239,11 @@ public class buttongame : MonoBehaviour {
         }
 
         
+    }
+
+    public void Timelimitshow()
+    {
+        anim.SetBool("timelimitshow", false);
+        GameObject.Find("timelimit").SetActive(false);
     }
 }

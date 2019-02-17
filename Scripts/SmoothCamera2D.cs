@@ -6,9 +6,26 @@ public class SmoothCamera2D : MonoBehaviour
 
     public float dampTime = 0.15f;
     private Vector3 velocity = Vector3.zero;
-    public Transform target;
+    public Transform woman;
+    public Transform mam;
+    Transform target;
     public Camera cameras;
 
+    private void Start()
+    {
+        if (PlayerPrefs.GetInt("character") == 0)
+        {
+            target = mam;
+        }
+        else if (PlayerPrefs.GetInt("character") == 1)
+        {
+            target = woman;
+        }
+        else
+        {
+            target = mam;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
